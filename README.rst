@@ -18,8 +18,21 @@ Exercises with social networks and property graphs
 * Free software: ISC license
 * Documentation: https://socialgraph.readthedocs.org.
 
+
+
 Features
 --------
+
+* Jupyter Notebook exploring dataset extracted from Wikipedia and decorated with random topics.
+
+:: Use:
+
+    pip install -r requirements_dev.txt
+    cd notebooks
+    jupyter notebook
+
+Point your browser to http://localhost:8888 and use shift-enter to execute the notebook cells.
+
 
 * TODO
 
