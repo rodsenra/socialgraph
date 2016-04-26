@@ -28,8 +28,11 @@ Features
 :: Use:
 
     pip install -r requirements_dev.txt
+    
     cd notebooks
+    
     jupyter notebook
+
 
 Point your browser to http://localhost:8888 and use shift-enter to execute the notebook cells.
 
