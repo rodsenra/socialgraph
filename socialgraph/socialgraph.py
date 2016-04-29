@@ -12,6 +12,7 @@ random.seed(123)
 def elect_committee(original_G, max_members, max_iter=100):
     """
     Identifies a committee in graph original_G with no more than max_members.
+
     :param original_G: The social networkx instance graph.
     :param max_members: the number of members in the committee.
     :param max_iter: limit to the number of iterations in the algorithm.
@@ -34,7 +35,8 @@ def elect_committee(original_G, max_members, max_iter=100):
 
 def compute_powers(G):
     """
-    Computes two dictionaries:
+    Computes the delegation powers of all nodes, returning two dictionaries:
+
       * powers -> key==node, value==delegation power of node
       * support_base -> key==node, value==all nodes represented by the key node.
 
@@ -57,6 +59,13 @@ def compute_powers(G):
 
 
 def select_candidate(G, candidate_dict):
+    """
+    Identify the next candidate.
+
+    :param G:
+    :param candidate_dict:
+    :return:
+    """
     power_dict = invert_dict(candidate_dict)
     top_voting = max(power_dict.keys())
     top_candidates = power_dict[top_voting]
@@ -83,6 +92,12 @@ def candidate_from_depedent_tie(G, dependent_candidates):
 
 
 def independent_nodes(G, node_list):
+    """
+    Test if the nodes in node_list represent an independent base.
+    :param G:
+    :param node_list:
+    :return: True if all nodes in node_list are independent amongst themselves.
+    """
     return not any(nx.has_path(G, i, j) for i, j in all_pairwise_combinations(node_list))
 
 
@@ -102,6 +117,9 @@ def subgraph_by_topic(G, topic):
 
 
 def paint_graph(G, committee):
+    """
+    Color the committee nodes and its represented base nodes.
+    """
     colorG = G.copy()
     represented_base = list(itertools.chain.from_iterable(committee.values()))
 
