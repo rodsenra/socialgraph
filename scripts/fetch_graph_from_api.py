@@ -23,6 +23,6 @@ for edge in response.get('delegations'):
 
 committee = elect_committee(G, 1)
 print("Committee:")
+print({k: len(v) for k, v in committee.items()})
 print(committee)
-#print({k: len(v) for k, v in committee.items()})
 draw(paint_graph(G, committee))
