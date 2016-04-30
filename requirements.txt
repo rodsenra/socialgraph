@@ -2,3 +2,4 @@ networkx==1.11
 requests==2.9.1
 nxpd==0.1.2
 Flask==0.10.1
+nose==1.3.7

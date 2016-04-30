@@ -6,7 +6,7 @@ from socialgraph.socialgraph import  elect_committee, paint_graph
 # WARNING: This version is ignoring topics for the committee election!
 
 endpoint = 'http://trust-engine-dev.herokuapp.com/api/v1/delegations'
-headers = {'x-trust-me': ')/6GrsL^bD%tC2EUR2n.x4^8r(=XbumMv@YfQL7)9PbF4zr8s9',
+headers = {'x-trust-me': '',
            'Accept': 'application/json'}
 
 r = requests.get(endpoint, headers=headers)

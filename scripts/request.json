@@ -1,6 +1,6 @@
 {
   "topic": "12392",
-  "member_limit": 1,
+  "member_limit": 2,
   "get_delegations": "http://trust-engine-dev.herokuapp.com/api/v1/delegations",
-  "headers": {"x-trust-me": ")/6GrsL^bD%tC2EUR2n.x4^8r(=XbumMv@YfQL7)9PbF4zr8s9"}
+  "headers": {"x-trust-me": ""}
 }
