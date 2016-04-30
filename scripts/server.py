@@ -34,7 +34,6 @@ def compute_committee():
         toUserId = edge.get('toUserId')
         topicId = edge.get('topicId')
         edge_id = edge.get('id')
-        print(topicId)
         if topicId != topic:
             continue
         G.add_edge(fromUserId, toUserId, id=edge_id, topic=topicId)

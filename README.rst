@@ -19,8 +19,57 @@ Exercises with social networks and property graphs
 * Documentation: https://socialgraph.readthedocs.org.
 
 
+Setup
+-----
 
-Features
+This is needed to be done just once.
+
+:: In the shell:
+
+    pip install -r requirements.txt
+
+
+Server
+------
+
+1) Start the server:
+
+         cd scripts
+         . ./setup_pythonpath.sh
+         python server.py localhost 8800
+
+ Expected output:
+
+        * Running on http://localhost:8800/ (Press CTRL+C to quit)
+
+
+2) Test the server:
+
+        ./test_server.sh
+
+ Expected output:
+
+        HTTP/1.1 100 Continue
+
+        HTTP/1.0 200 OK
+        Content-Type: application/json
+        Content-Length: 110
+        Server: Werkzeug/0.11.2 Python/2.7.11
+        Date: Sat, 30 Apr 2016 21:31:15 GMT
+
+        {
+          "committee": {
+            "12448": [
+              "40976432",
+              "28904",
+              "12448",
+              "16544"
+            ]
+          }
+        }
+
+
+Jupyter
 --------
 
 * Jupyter Notebook exploring dataset extracted from Wikipedia and decorated with random topics.
@@ -28,7 +77,7 @@ Features
 :: Use:
 
     pip install -r requirements_dev.txt
-    
+
     cd notebooks
     
     jupyter notebook
