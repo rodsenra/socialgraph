@@ -35,7 +35,9 @@ Server
 1) Start the server:
 
          cd scripts
+         
          . ./setup_pythonpath.sh
+         
          python server.py localhost 8800
 
  Expected output:
