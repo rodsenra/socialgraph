@@ -37,10 +37,65 @@ Features
 Point your browser to http://localhost:8888 and use shift-enter to execute the notebook cells.
 
 
-* TODO
+Titan DB
+---------
+
+1. Start the titan db
+
+        bin/titan.sh start
+
+   Expected output:
+
+        Forking Cassandra...
+        Running `nodetool statusthrift`.. OK (returned exit status 0 and printed string "running").
+        Forking Elasticsearch...
+        Connecting to Elasticsearch (127.0.0.1:9300).. OK (connected to 127.0.0.1:9300).
+        Forking Gremlin-Server...
+        Connecting to Gremlin-Server (127.0.0.1:8182).... OK (connected to 127.0.0.1:8182).
+        Run gremlin.sh to connect.
+
+2. Start the gremlin shell
+
+        ./bin/gremlin.sh
+
+    Expected output:
+
+                \,,,/
+                 (o o)
+        -----oOOo-(3)-oOOo-----
+        plugin activated: aurelius.titan
+        plugin activated: tinkerpop.server
+        plugin activated: tinkerpop.utilities
+        SLF4J: Class path contains multiple SLF4J bindings.
+        SLF4J: Found binding in [jar:file:/usr/local/src/titan-1.0.0-hadoop1/lib/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+        SLF4J: Found binding in [jar:file:/usr/local/src/titan-1.0.0-hadoop1/lib/logback-classic-1.1.2.jar!/org/slf4j/impl/StaticLoggerBinder.class]
+        SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+        SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]
+        13:22:31 INFO  org.apache.tinkerpop.gremlin.hadoop.structure.HadoopGraph  - HADOOP_GREMLIN_LIBS is set to: /usr/local/src/titan-1.0.0-hadoop1/lib
+        plugin activated: tinkerpop.hadoop
+        plugin activated: tinkerpop.tinkergraph
+
+3. Connect the shell with the server
+
+        :remote connect tinkerpop.server conf/remote.yaml
+
+    Expected output:
+
+        ==>Connected - localhost/127.0.0.1:8182
+
+
+
+4. Load a graphml into Titan DB
+
+        graph = TitanFactory.open()
+        graph.io(IoCore.graphml()).readGraph("/Users/rodsenra/r/projects/WorkCo/socialgraph/datasets/wiki.graphml")
+
+
 
 Credits
 ---------
+
+This code was originally created by Rodrigo Senra <rodsenra@gmail.com> .
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 

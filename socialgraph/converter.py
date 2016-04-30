@@ -5,6 +5,7 @@ from .util import id_generator
 
 template_structure ="""<?xml version="1.0" encoding="UTF-8"?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns">
+<key attr.name="label" attr.type="string" for="node" id="label" />
 <key attr.name="topic" attr.type="string" for="edge" id="topic" />
 <graph edgedefault="directed">
 {NODES}
@@ -13,9 +14,9 @@ template_structure ="""<?xml version="1.0" encoding="UTF-8"?>
 </graphml>
 """
 
-template_node = '<node id="{node_id}"/>'
+template_node = '<node id="n{node_id}"> <data key="label">n{label}</data> </node>'
 
-template_edge = '<edge id="{edge_id}" directed="true" source="{from_node}" target="{to_node}"> <data key="topic">{topic}</data> </edge>'
+template_edge = '<edge id="e{edge_id}" directed="true" source="n{from_node}" target="n{to_node}"> <data key="topic">{topic}</data> </edge>'
 
 
 def _convert_line(line):
@@ -39,7 +40,7 @@ def convert_tsv_into_graphml(input_file, output_file, topics):
         nodes.add(to_node)
         edges.append((from_node, to_node))
 
-    node_lines = '\n'.join(template_node.format(node_id=id) for id in nodes)
+    node_lines = '\n'.join(template_node.format(node_id=id, label=str(id)) for id in nodes)
     edge_lines = '\n'.join(template_edge.format(from_node=f,
                                                 to_node=t,
                                                 edge_id=edge_id_gen.next(),

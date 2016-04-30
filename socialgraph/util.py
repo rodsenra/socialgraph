@@ -19,6 +19,7 @@ def invert_dict(d):
             p[v] = [k]
     return p
 
+
 def select_top_k(score_dict, k):
     return list(itertools.islice(reversed(sorted((v, k) for k, v in score_dict.items())), 0, k))
 

@@ -19,7 +19,7 @@ subnodes = G.nodes()[:MAX_EDGES]
 G = G.subgraph(subnodes)
 print("Subgraph: {0} nodes {1} edges".format(len(G.nodes()), len(G.edges())))
 
-# Filter subtopic
+# Filter graph by subtopic
 G = subgraph_by_topic(G, TOPIC)
 draw(G)
 
