@@ -17,6 +17,7 @@ Exercises with social networks and property graphs
 
 * Free software: ISC license
 * Documentation: https://socialgraph.readthedocs.org.
+* Dashboard: https://waffle.io/rodsenra/socialgraph
 
 
 Setup
