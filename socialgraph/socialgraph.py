@@ -9,6 +9,20 @@ from .util import invert_dict, all_pairwise_combinations
 random.seed(123)
 
 
+def precompute_lengths(G):
+    length = {}
+    for v in G.nodes():
+        length[v] = nx.single_source_shortest_path_length(G, v)
+    return length
+
+
+def has_path(lengths, src, dst):
+    try:
+        return lengths[src][dst] >= 0
+    except:
+        return False
+
+
 def elect_committee(original_G, max_members, max_iter=100):
     """
     Identifies a committee in graph original_G with no more than max_members.
@@ -21,10 +35,11 @@ def elect_committee(original_G, max_members, max_iter=100):
     iteration = 0
     committee = {}
     G = original_G.copy()
+    lengths = precompute_lengths(G)
     while len(committee) < max_members:
         iteration += 1
-        all_candidates, support_base = compute_powers(G)
-        candidate = select_candidate(G, all_candidates)
+        all_candidates, support_base = compute_powers(G, lengths)
+        candidate = select_candidate(G, all_candidates, lengths)
         base = support_base[candidate]
         committee[candidate] = base
         G.remove_nodes_from(base)
@@ -33,22 +48,22 @@ def elect_committee(original_G, max_members, max_iter=100):
     return committee
 
 
-def compute_powers(G):
+def compute_powers(G, lengths):
     """
     Computes the delegation powers of all nodes, returning two dictionaries:
 
       * powers -> key==node, value==delegation power of node
       * support_base -> key==node, value==all nodes represented by the key node.
+      * lengths -> sparse matrix of path lengths
 
-    Complexity |V|**2 * complexity(has_path).
-    has_path could be implemented to be O(V+E), using DFS with adjancency lists.
+    Complexity |V|**2.
     """
     support_base = {}
     V = G.nodes()
     powers = dict(zip(V, [0]*len(V)))
     for dst in V:
         for src in V:
-            if nx.has_path(G, src, dst):
+            if has_path(lengths, src, dst):
                 powers[dst] += 1
                 try:
                     support_base[dst].append(src)
@@ -58,7 +73,7 @@ def compute_powers(G):
     return powers, support_base
 
 
-def select_candidate(G, candidate_dict):
+def select_candidate(G, candidate_dict, lengths):
     """
     Identify the next candidate.
 
@@ -73,7 +88,7 @@ def select_candidate(G, candidate_dict):
         candidate = top_candidates[0]
     else:
         candidate = (random.choice(top_candidates)
-                     if independent_nodes(G, top_candidates)
+                     if independent_nodes(G, top_candidates, lengths)
                      else candidate_from_depedent_tie(G, top_candidates))
 
     return candidate
@@ -94,14 +109,14 @@ def candidate_from_depedent_tie(G, dependent_candidates):
     return candidate[0]
 
 
-def independent_nodes(G, node_list):
+def independent_nodes(G, node_list, lengths):
     """
     Test if the nodes in node_list represent an independent base.
     :param G:
     :param node_list:
     :return: True if all nodes in node_list are independent amongst themselves.
     """
-    return not any(nx.has_path(G, i, j) for i, j in all_pairwise_combinations(node_list))
+    return not any(has_path(lengths, i, j) for i, j in all_pairwise_combinations(node_list))
 
 
 def subgraph_by_topic(G, topic):
