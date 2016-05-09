@@ -89,12 +89,12 @@ def select_candidate(G, candidate_dict, lengths):
     else:
         candidate = (random.choice(top_candidates)
                      if independent_nodes(G, top_candidates, lengths)
-                     else candidate_from_depedent_tie(G, top_candidates))
+                     else candidate_from_depedent_tie(G, top_candidates, lengths))
 
     return candidate
 
 
-def candidate_from_depedent_tie(G, dependent_candidates):
+def candidate_from_depedent_tie(G, dependent_candidates, lengths):
     aux_G = G.copy()
     dependent_edges = all_pairwise_combinations(dependent_candidates)
     for v, u in dependent_edges:
@@ -102,7 +102,7 @@ def candidate_from_depedent_tie(G, dependent_candidates):
             aux_G.remove_edge(v, u)
         except nx.NetworkXError:
             pass
-    all_candidates, support_base = compute_powers(aux_G)
+    all_candidates, support_base = compute_powers(aux_G, lengths)
     valid_candidates = {k: all_candidates[k] for k in dependent_candidates}
     top_voted = invert_dict(valid_candidates)
     candidate = top_voted[max(top_voted.keys())]
